@@ -8,7 +8,7 @@ spring:
 weather:
   api:
     url: https://api.openweathermap.org/data/2.5/forecast
-    key: d2929e9483efc82c82c32ee7e02d563e
+    key: 641592fe6d94cc07de6d27c9a67d1f0b
     count: 40
   offline-mode : false
 
