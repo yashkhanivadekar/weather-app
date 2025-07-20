@@ -6,13 +6,6 @@ pipeline {
         CONTAINER_NAME = 'weather-container'
     }
 
-    stages {
-        stage('Clone') {
-            steps {
-                git credentialsId: 'jenkins-github-key', url: 'git@github.com:yashkhanivadekar/weather-app.git'
-            }
-        }
-
         stage('Build JAR') {
             steps {
                 sh 'chmod +x mvnw'
