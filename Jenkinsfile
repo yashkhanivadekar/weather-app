@@ -5,7 +5,17 @@ pipeline {
         DOCKER_BUILDKIT = '1'
     }
 
+    options {
+        skipDefaultCheckout()
+    }
+
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Build JAR') {
             steps {
                 sh 'chmod +x mvnw'
@@ -21,7 +31,9 @@ pipeline {
 
         stage('Docker Deploy') {
             steps {
-                sh 'docker run -d -p 8080:8080 --name weather-app weather-app'
+                // Stop and remove any running container (optional safety)
+                sh 'docker rm -f weather-app || true'
+                sh 'docker run --rm -d -p 8080:8080 --name weather-app weather-app'
             }
         }
     }
