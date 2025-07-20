@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Build JAR') {
             steps {
-                sh 'chmod +x mvnw'
+                sh 'chmod +x mvndockew'
                 sh './mvnw clean package -DskipTests'
             }
         }
@@ -23,7 +23,7 @@ pipeline {
         stage('Docker Deploy') {
             steps {
                 sh 'docker rm -f weather-app || true'
-                sh 'docker run --rm -d -p 8080:8080 --name weather-app weather-app'
+                sh 'docker run --rm -d -p 9091:8080 --name weather-app weather-app'
             }
         }
     }
