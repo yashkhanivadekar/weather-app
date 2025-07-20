@@ -1,0 +1,11 @@
+services:
+  weather-service:
+    image: weather-app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - weather.offline-mode=false
+      - weather.api.key=d2929e9483efc82c82c32ee7e02d563e
