@@ -1,16 +1,19 @@
 pipeline {
     agent any
 
+    environment {
+        WEATHER_API_KEY = credentials('weather-api-key') // Use Jenkins credentials store
+    }
+
     stages {
         stage('Build') {
             steps {
-                sh 'chmod +x mvnw'
                 sh './mvnw clean package -DskipTests'
             }
         }
         stage('Docker Build') {
             steps {
-                sh 'docker build -t weather-app .'
+                sh 'docker build --build-arg WEATHER_API_KEY=$WEATHER_API_KEY -t weather-app .'
             }
         }
         stage('Docker Run') {
