@@ -1,49 +1,24 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE = 'weather-app'
-        DOCKER_TAG = 'latest'
-        WEATHER_API_KEY = credentials('weather-api-key')
-    }
-
     stages {
-        stage('Checkout') {
-            steps {
-                git url: 'https://your-git-repo-url.git' // Update this
-            }
-        }
-
         stage('Build') {
             steps {
+                sh 'chmod +x mvnw'
                 sh './mvnw clean package -DskipTests'
             }
         }
-
-        stage('Test') {
-            steps {
-                sh './mvnw test'
-            }
-        }
-
         stage('Docker Build') {
             steps {
-                sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .'
+                sh 'docker build -t weather-app .'
             }
         }
-
-        stage('Archive Artifacts') {
+        stage('Docker Run') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                sh 'docker stop weather-container || true'
+                sh 'docker rm weather-container || true'
+                sh 'docker run -d -p 8080:8080 --name weather-container weather-app'
             }
-        }
-    }
-
-    post {
-        failure {
-            mail to: 'your-team@email.com',
-                 subject: "Build Failed: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                 body: "Build failed. Check Jenkins logs: ${env.BUILD_URL}"
         }
     }
 }
