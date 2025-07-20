@@ -1,26 +1,43 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = 'weather-app'
+        CONTAINER_NAME = 'weather-container'
+    }
+
     stages {
+        stage('Clone') {
+            steps {
+                git credentialsId: 'jenkins-github-key', url: 'git@github.com:yashkhanivadekar/weather-app.git'
+            }
+        }
+
         stage('Build JAR') {
             steps {
+                sh 'chmod +x mvnw'
                 sh './mvnw clean package -DskipTests'
             }
         }
 
-        stage('Docker Build & Push') {
+        stage('Docker Build') {
             steps {
-                sh 'docker build -t yashkhanivadekar/weather-app:latest .'
-                sh 'docker push yashkhanivadekar/weather-app:latest'
+                sh 'docker build -t ${IMAGE_NAME} .'
             }
         }
 
         stage('Docker Deploy') {
             steps {
-                sh 'docker-compose down || true'
-                sh 'docker-compose pull'
-                sh 'docker-compose up -d'
+                sh 'docker stop ${CONTAINER_NAME} || true'
+                sh 'docker rm ${CONTAINER_NAME} || true'
+                sh 'docker run -d -p 8080:8080 --name ${CONTAINER_NAME} ${IMAGE_NAME}'
             }
+        }
+    }
+
+    post {
+        failure {
+            echo "Build failed! Check logs."
         }
     }
 }
