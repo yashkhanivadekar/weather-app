@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'weather-app'
-        CONTAINER_NAME = 'weather-container'
+        DOCKER_BUILDKIT = '1'
     }
 
+    stages {
         stage('Build JAR') {
             steps {
                 sh 'chmod +x mvnw'
@@ -15,22 +15,20 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t ${IMAGE_NAME} .'
+                sh 'docker build -t weather-app .'
             }
         }
 
         stage('Docker Deploy') {
             steps {
-                sh 'docker stop ${CONTAINER_NAME} || true'
-                sh 'docker rm ${CONTAINER_NAME} || true'
-                sh 'docker run -d -p 8080:8080 --name ${CONTAINER_NAME} ${IMAGE_NAME}'
+                sh 'docker run -d -p 8080:8080 --name weather-app weather-app'
             }
         }
     }
 
     post {
         failure {
-            echo "Build failed! Check logs."
+            echo 'Build failed! Check logs.'
         }
     }
 }
