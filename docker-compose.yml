@@ -7,6 +7,7 @@ services:
       - "9090:8080"
       - "50000:50000"
     volumes:
+      - ~/.ssh:/root/.ssh:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jenkins_home:/var/jenkins_home
     user: root
