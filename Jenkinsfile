@@ -15,14 +15,18 @@ pipeline {
 
         stage('Build JAR') {
             steps {
-                sh 'chmod +x mvnw'
-                sh './mvnw clean package -DskipTests'
+                dir('weather-app') {
+                    sh 'chmod +x mvnw || true' // ignore if already executable
+                    sh './mvnw clean package -DskipTests'
+                }
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t weather-app .'
+                dir('weather-app') {
+                    sh 'docker build -t weather-app .'
+                }
             }
         }
 
