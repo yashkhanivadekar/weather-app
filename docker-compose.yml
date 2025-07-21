@@ -9,6 +9,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jenkins_home:/var/jenkins_home
+      - ~/.ssh:/root/.ssh:ro
     user: root
 
   backend:
