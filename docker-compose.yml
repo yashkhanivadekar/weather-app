@@ -1,4 +1,14 @@
 services:
+  jenkins:
+    build:
+      context: ./jenkins
+    container_name: weather-jenkins
+    ports:
+      - "9090:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./jenkins_home:/var/jenkins_home
+
   backend:
     build:
       context: ./backend
