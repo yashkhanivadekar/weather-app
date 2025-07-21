@@ -34,7 +34,7 @@ pipeline {
             steps {
                 // Stop and remove any running container (optional safety)
                 sh 'docker rm -f weather-app || true'
-                sh 'docker run --rm -d -p 8080:8080 --name weather-app weather-app'
+                sh 'docker run --rm -d -p 8081:8080 --name weather-app weather-app'
             }
         }
     }
