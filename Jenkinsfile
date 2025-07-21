@@ -1,9 +1,9 @@
+pipeline {
     agent any
 
     environment {
         DOCKER_BUILDKIT = '1'
         HOME = "/var/jenkins_home"
-        DOCKER_BUILDKIT = "1"
     }
 
     options {
@@ -42,6 +42,12 @@
     post {
         failure {
             echo 'Build failed! Check logs.'
+        }
+        success {
+            echo 'Build and deployment successful!'
+        }
+        always {
+            echo 'Pipeline finished.'
         }
     }
 }
