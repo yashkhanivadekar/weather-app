@@ -15,18 +15,13 @@ pipeline {
 
         stage('Build JAR') {
             steps {
-                dir('weather-app') {
-                    sh 'chmod +x mvnw || true'
-                    sh './mvnw clean package -DskipTests'
-                }
+                sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Docker Build') {
             steps {
-                dir('weather-app') {
-                    sh 'docker build -t weather-app .'
-                }
+                sh 'docker build -t weather-app .'
             }
         }
 
