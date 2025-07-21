@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']],
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']],
                           userRemoteConfigs: [[url: 'git@github.com:yashkhanivadekar/weather-app.git']]])
             }
         }
