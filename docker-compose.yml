@@ -1,11 +1,28 @@
 services:
-  weather-service:
-    image: weather-app:latest
+  backend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./backend
+    container_name: weather-backend
     ports:
-      - "8082:8080"
+      - "8081:8080"
     environment:
-      - WEATHER_OFFLINE_MODE=false
-      - WEATHER_API_KEY=641592fe6d94cc07de6d27c9a67d1f0b
+      - WEATHER_API_KEY=${WEATHER_API_KEY}
+      - OFFLINE_MODE=${OFFLINE_MODE}
+    networks:
+      - weather-network
+
+  weather-ui:
+    build:
+      context: ./weather-ui
+    container_name: weather-ui
+    image: forecast-weather-ui
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - weather-network
+
+networks:
+  weather-network:
+    driver: bridge

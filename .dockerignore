@@ -1,4 +1,6 @@
 target/
 .idea/
+weather-ui/node_modules
+weather-ui/build
 *.iml
 *.log

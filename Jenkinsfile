@@ -1,53 +1,64 @@
 pipeline {
-    agent any
+  agent any
 
-    environment {
-        DOCKER_BUILDKIT = '1'
-        HOME = "/var/jenkins_home"
+  options {
+    timeout(time: 10, unit: 'MINUTES')
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+
+  environment {
+    OPENWEATHER_API_KEY = credentials('OPENWEATHER_API_KEY')
+  }
+
+  stages {
+    stage('Checkout Code') {
+      steps {
+        git branch: 'main', url: 'git@github.com:yashkhanivadekar/weather-app.git'
+      }
     }
 
-    options {
-        skipDefaultCheckout()
+    stage('Clean Environment') {
+      steps {
+        sh 'docker-compose down --remove-orphans || true'
+        sh 'docker system prune -af || true'
+      }
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build JAR') {
-            steps {
-                sh 'chmod +x mvnw'
-                sh './mvnw clean package -DskipTests'
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                sh 'docker build -t weather-app .'
-            }
-        }
-
-        stage('Docker Deploy') {
-            steps {
-                // Stop and remove any running container (optional safety)
-                sh 'docker rm -f weather-app || true'
-                sh 'docker run --rm -d -p 8081:8080 --name weather-app weather-app'
-            }
-        }
+    stage('Inject Secrets') {
+      steps {
+        writeFile file: '.env', text: "OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY}"
+      }
     }
 
-    post {
-        failure {
-            echo 'Build failed! Check logs.'
-        }
-        success {
-            echo 'Build and deployment successful!'
-        }
-        always {
-            echo 'Pipeline finished.'
-        }
+    stage('Build Services') {
+      steps {
+        sh 'docker-compose build'
+      }
     }
+
+    stage('Deploy') {
+      steps {
+        sh 'docker-compose up -d'
+      }
+    }
+
+    stage('Health Check') {
+      steps {
+        script {
+          sleep 10
+          sh 'curl -f http://localhost:8081/weather?city=Mumbai'
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      sh 'docker-compose down || true'
+      archiveArtifacts artifacts: '**/build/**', allowEmptyArchive: true
+    }
+    failure {
+      echo 'Build failed!'
+    }
+  }
 }
