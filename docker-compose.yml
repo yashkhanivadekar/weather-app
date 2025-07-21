@@ -9,7 +9,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./jenkins_home:/var/jenkins_home
-      - ~/.ssh:/root/.ssh:ro
     user: root
 
   backend:
@@ -28,7 +27,6 @@ services:
     build:
       context: ./weather-ui
     container_name: weather-ui
-    image: forecast-weather-ui
     ports:
       - "8080:80"
     depends_on:
