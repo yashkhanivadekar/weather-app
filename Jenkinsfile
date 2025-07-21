@@ -1,9 +1,13 @@
-pipeline {
     agent any
 
     environment {
+        DOCKER_BUILDKIT = '1'
         HOME = "/var/jenkins_home"
         DOCKER_BUILDKIT = "1"
+    }
+
+    options {
+        skipDefaultCheckout()
     }
 
     stages {
@@ -15,7 +19,8 @@ pipeline {
 
         stage('Build JAR') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh 'chmod +x mvnw'
+                sh './mvnw clean package -DskipTests'
             }
         }
 
@@ -27,6 +32,7 @@ pipeline {
 
         stage('Docker Deploy') {
             steps {
+                // Stop and remove any running container (optional safety)
                 sh 'docker rm -f weather-app || true'
                 sh 'docker run --rm -d -p 9091:8080 --name weather-app weather-app'
             }
