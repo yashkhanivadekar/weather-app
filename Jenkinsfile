@@ -16,7 +16,7 @@ pipeline {
         stage('Build JAR') {
             steps {
                 dir('weather-app') {
-                    sh 'chmod +x mvnw || true' // ignore if already executable
+                    sh 'chmod +x mvnw || true'
                     sh './mvnw clean package -DskipTests'
                 }
             }
