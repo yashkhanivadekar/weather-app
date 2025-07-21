@@ -20,6 +20,7 @@ pipeline {
 
         stage('Clean Environment') {
             steps {
+                sh 'docker rm -f weather-backend weather-jenkins weather-ui || true'
                 sh 'docker-compose down --remove-orphans || true'
                 sh 'docker system prune -af || true'
             }
