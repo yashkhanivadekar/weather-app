@@ -55,9 +55,11 @@ pipeline {
 
     post {
         always {
-            // Wrap the sh command in a node block to ensure a workspace context
-            script { // Script block is needed to use 'node' within 'post'
-                node(label: "${env.NODE_NAME}") { // Use the same node where the build ran
+            script {
+                // Use 'agent any' here directly. This ensures a node is allocated
+                // and the workspace context is available for the 'sh' command.
+                // It's more robust than relying on env.NODE_NAME here.
+                node {
                     sh 'docker-compose down || true'
                 }
             }
