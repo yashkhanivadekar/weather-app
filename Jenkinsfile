@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        OPENWEATHER_API_KEY = credentials('OPENWEATHER_API_KEY')
+        WEATHER_API_KEY = credentials('WEATHER_API_KEY')
     }
 
     stages {
@@ -27,7 +27,7 @@ pipeline {
 
         stage('Inject Secrets') {
             steps {
-                writeFile file: '.env', text: "OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY}"
+                writeFile file: '.env', text: "WEATHER_API_KEY=${WEATHER_API_KEY}"
             }
         }
 
