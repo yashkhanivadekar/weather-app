@@ -7,5 +7,5 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - weather.offline-mode=false
-      - weather.api.key=641592fe6d94cc07de6d27c9a67d1f0b
+      - WEATHER_OFFLINE_MODE=false
+      - WEATHER_API_KEY=641592fe6d94cc07de6d27c9a67d1f0b

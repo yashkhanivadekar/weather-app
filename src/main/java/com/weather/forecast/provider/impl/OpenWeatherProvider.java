@@ -22,13 +22,13 @@ public class OpenWeatherProvider implements WeatherDataProvider {
     @Value("${weather.api.url}")
     private String apiUrl;
 
-    @Value("${weather.api.key}")
+    @Value("${WEATHER_API_KEY}")
     private String apiKey;
 
     @Value("${weather.api.count}")
     private int apiCount;
 
-    @Value("${weather.offline-mode:false}")
+    @Value("${WEATHER_OFFLINE_MODE:false}")
     private boolean offlineMode;
 
     private final RestTemplate restTemplate;
