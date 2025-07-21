@@ -14,7 +14,7 @@ pipeline {
 
     stage('Build and Deploy Containers') {
       steps {
-        sh 'docker-compose -f docker-compose.yml up --build -d weather-backend weather-ui'
+        sh 'docker-compose -f docker-compose.yml up --build -d backend weather-ui'
       }
     }
 
