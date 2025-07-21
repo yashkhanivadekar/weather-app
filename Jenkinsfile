@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Checkout Code') {
       steps {
-        git url: 'git@github.com:yashkhanivadekar/weather-app.git', credentialsId: 'github-ssh-key'
+        git url: 'git@github.com:yashkhanivadekar/weather-app.git', credentialsId: 'git'
       }
     }
 
