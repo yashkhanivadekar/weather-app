@@ -1,0 +1,13 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<fingerprint>
+  <timestamp>2025-07-27 04:46:49.819 UTC</timestamp>
+  <md5sum>f7b41b1b2bea60aefa0c569442552d31</md5sum>
+  <fileName>Credential id=jenkins-github-key name=git</fileName>
+  <usages>
+    <entry>
+      <string>weather-pipeline</string>
+      <ranges>1</ranges>
+    </entry>
+  </usages>
+  <facets/>
+</fingerprint>

@@ -1,0 +1,6 @@
+weather:
+  api:
+    url: dummy
+    key: dummy
+    count: 3
+  offline-mode: true

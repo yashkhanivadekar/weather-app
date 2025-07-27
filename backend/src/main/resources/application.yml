@@ -1,0 +1,19 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: forecast
+
+weather:
+  api:
+    url: https://api.openweathermap.org/data/2.5/forecast
+    key: ${WEATHER_API_KEY}
+    count: 40
+  offline-mode : ${OFFLINE_MODE:false}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
