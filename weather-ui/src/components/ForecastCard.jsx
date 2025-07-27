@@ -53,7 +53,7 @@ const ForecastCard = () => {
                                 <strong>Date:</strong> {day.date} <br />
                                 <strong>High:</strong> {day.maxTemp}°C <br />
                                 <strong>Low:</strong> {day.minTemp}°C <br />
-                                <strong>Wind Speed:</strong> {day.windSpeed} km/h <br />
+                                <strong>Wind Speed:</strong> {day.windSpeed} mph/h <br />
                                 <strong>Condition:</strong> {day.condition} <br />
                                 <strong>Alerts:</strong>{" "}
                                 {day.alerts?.length > 0 ? day.alerts.join(", ") : "None"}
