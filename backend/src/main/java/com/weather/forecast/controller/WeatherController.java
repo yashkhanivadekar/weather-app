@@ -14,9 +14,13 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.Link;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.validation.annotation.Validated;
+
 
 @Tag(name = "Weather Forecast", description = "Get 3-day weather forecast with alerts")
 @RestController
+@Validated
 @RequestMapping("/weather")
 public class WeatherController {
     private final WeatherService weatherService;
@@ -60,7 +64,8 @@ public class WeatherController {
     @GetMapping
     public ForecastModel getForecast(
             @Parameter(description = "City name to fetch forecast for", required = true)
-            @RequestParam String city){
+            @RequestParam String city
+            @NotBlank){
         ForecastResponse response = weatherService.getForecastForCity(city);
 
         ForecastModel model = new ForecastModel(response);

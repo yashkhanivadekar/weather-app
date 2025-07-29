@@ -6,6 +6,11 @@ const ForecastCard = () => {
     const [error, setError] = useState(null);
 
     const fetchForecast = async () => {
+        if (!city.trim()) {
+            setForecast(null);
+            setError("City name cannot be empty");
+            return;
+        }
         try {
             const response = await fetch(`/weather?city=${city}`);
             if (!response.ok) throw new Error("Failed to fetch forecast");
