@@ -10,7 +10,7 @@ weather:
     url: https://api.openweathermap.org/data/2.5/forecast
     key: ${WEATHER_API_KEY}
     count: 40
-  offline-mode : ${OFFLINE_MODE:false}
+  offline-mode : ${OFFLINE_MODE:true}
 
 springdoc:
   api-docs:
